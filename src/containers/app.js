@@ -10,6 +10,7 @@ import "../style/style.css"
 const API_END_POINT = "https://api.themoviedb.org/3/"
 const POPULAR_MOVIES_URL = "discover/movie?language=fr&sort_by=popularity.desc&include_adult=false&append_to_response=images"
 const API_KEY = "api_key=513d2a5866b142f5b79b402d27054676"
+const SEARCH_URL="search/movie?language=fr&include_adult=false"
 
 class App extends Component{
     constructor(props){
@@ -51,22 +52,43 @@ class App extends Component{
         }.bind(this));
     }
 
-    receiveCallBack(movie){
+    onClickListItem(movie){
         this.setState({currentMovie:movie}, function(){
             this.applyVideoToCurrentMovie();
         })
     }
 
+    onClickSearch(searchText){
+        // console.log('-----------------')
+        // console.log(searchText)
+        // console.log('-----------------')
+        if(searchText){
+            axios.get(`${API_END_POINT}${SEARCH_URL}&${API_KEY}&query=${searchText}`).then(function(response){
+                if(response.data && response.data.results[0]){
+                    this.setState({movieList:response.data.results.slice(1,6), currentMovie:response.data.results[0]}, function(){
+                        this.applyVideoToCurrentMovie();
+                    });  
+                }
+                // console.log('-----------------------------');
+                // console.log(this.state.movieList);
+                // console.log(this.state.currentMovie);
+                // console.log('-----------------------------');
+            }.bind(this));
+        }
+        
+
+    }
+
     render(){
         const renderVideoList=()=> {
             if(this.state.movieList.length>=5){
-                 return <VideoList movieList={this.state.movieList} callback={this.receiveCallBack.bind(this)}/>
+                 return <VideoList movieList={this.state.movieList} callback={this.onClickListItem.bind(this)}/>
             }
         }
         return (
                 <div>
                     <div className="search_bar">
-                        <SearchBar/>
+                        <SearchBar callback={this.onClickSearch.bind(this)}/>
                     </div>
                     <div className="row">
                         <div className="col-md-8">
