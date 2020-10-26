@@ -41,10 +41,12 @@ class App extends Component{
             // console.log('-----------------------------');
             // console.log(response);
             // console.log('-----------------------------');
-            const youtubeKey= response.data.videos.results[0].key;
-            let newCurrentMovieState = this.state.currentMovie;
-            newCurrentMovieState.videoId = youtubeKey;
-            this.setState({currentMovie: newCurrentMovieState});
+            if(response.data.videos.results[0]){
+                const youtubeKey= response.data.videos.results[0].key;
+                let newCurrentMovieState = this.state.currentMovie;
+                newCurrentMovieState.videoId = youtubeKey;
+                this.setState({currentMovie: newCurrentMovieState});
+            }
             // console.log('-----------------------------');
             // console.log(newCurrentMovieState);
             // console.log('-----------------------------');
