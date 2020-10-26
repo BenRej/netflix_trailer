@@ -51,10 +51,16 @@ class App extends Component{
         }.bind(this));
     }
 
+    receiveCallBack(movie){
+        this.setState({currentMovie:movie}, function(){
+            this.applyVideoToCurrentMovie();
+        })
+    }
+
     render(){
         const renderVideoList=()=> {
             if(this.state.movieList.length>=5){
-                 return <VideoList movieList={this.state.movieList}/>
+                 return <VideoList movieList={this.state.movieList} callback={this.receiveCallBack.bind(this)}/>
             }
         }
         return (
@@ -65,13 +71,15 @@ class App extends Component{
                     <div className="row">
                         <div className="col-md-8">
                             <Video videoId={this.state.currentMovie.videoId}/>
-                            <VideoDetail title={this.state.currentMovie.title} description={this.state.currentMovie.overview}/>
+                            <VideoDetail title={this.state.currentMovie.title} description={this.state.currentMovie.overview} />
                         </div>
                         <div  className="col-md-4">
                             {renderVideoList()}
                         </div>
                     </div>
                 </div>
+
+                
         )
    }
 }
