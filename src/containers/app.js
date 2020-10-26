@@ -4,6 +4,7 @@ import VideoDetail from '../components/video-details'
 import Video from '../components/video'
 import VideoList from './video-list'
 import axios from 'axios'
+import "../style/style.css"
 
 
 const API_END_POINT = "https://api.themoviedb.org/3/"
@@ -58,10 +59,18 @@ class App extends Component{
         }
         return (
                 <div>
-                    <SearchBar/>
-                    <Video videoId={this.state.currentMovie.videoId}/>
-                    {renderVideoList()}
-                    <VideoDetail title={this.state.currentMovie.title} description={this.state.currentMovie.overview}/>
+                    <div className="search_bar">
+                        <SearchBar/>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-8">
+                            <Video videoId={this.state.currentMovie.videoId}/>
+                            <VideoDetail title={this.state.currentMovie.title} description={this.state.currentMovie.overview}/>
+                        </div>
+                        <div  className="col-md-4">
+                            {renderVideoList()}
+                        </div>
+                    </div>
                 </div>
         )
    }
